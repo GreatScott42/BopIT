@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, SensorListener {
         val sensor: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
         sensorManager.registerListener(this,sensor,SensorManager.SENSOR_DELAY_NORMAL)
         l = findViewById(R.layout.activity_main)
+        l?.setBackgroundColor(R.color.black)
         mDetector = GestureDetectorCompat(this, MyGestureListener(this))
         //mediaPlayer?.start() // no need to call prepare(); create() does that for you
     }
@@ -65,15 +66,16 @@ class MainActivity : AppCompatActivity(), SensorEventListener, SensorListener {
     override fun onSensorChanged(event: SensorEvent?) {
 
         if(event?.sensor?.type==Sensor.TYPE_ACCELEROMETER){
-            if (event.values[0].toInt() !=0&&event.values[1].toInt() !=0){
+
+            if (event.values[0].toInt() >6){
                 Log.d("asdasda",event.values[0].toString())
 
-                l?.setBackgroundColor(R.color.black)
-            }else{
-                l?.setBackgroundColor(R.color.white)
+
             }
-
-
+            /*else{
+                l?.setBackgroundColor(R.color.black)
+                Log.d("blaaaaaaaaack",event.values[1].toString())
+            }*/
         }
     }
 
