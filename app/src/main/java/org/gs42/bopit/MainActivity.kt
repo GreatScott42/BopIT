@@ -2,6 +2,11 @@ package org.gs42.bopit
 
 import android.content.Context
 import android.content.Intent
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorListener
+import android.hardware.SensorManager
 import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,18 +17,26 @@ import androidx.core.view.MotionEventCompat
 import android.view.GestureDetector
 import androidx.core.view.GestureDetectorCompat
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), SensorEventListener, SensorListener {
 
     private lateinit var mDetector: GestureDetectorCompat
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
+        val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        val sensor: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+        sensorManager.registerListener(this,sensor,SensorManager.SENSOR_DELAY_NORMAL)
+
         mDetector = GestureDetectorCompat(this, MyGestureListener(this))
         //mediaPlayer?.start() // no need to call prepare(); create() does that for you
     }
+
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         mDetector.onTouchEvent(event)
@@ -44,5 +57,26 @@ class MainActivity : AppCompatActivity() {
             return true
         }
     }
+
+    override fun onSensorChanged(event: SensorEvent?) {
+
+        if(event?.sensor?.type==Sensor.TYPE_ACCELEROMETER){
+            if (event.values[0].toInt() >0)
+            Log.d("asdasda",event.values[0].toString())
+        }
+    }
+
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
+
+    }
+
+    override fun onSensorChanged(sensor: Int, values: FloatArray?) {
+
+    }
+
+    override fun onAccuracyChanged(sensor: Int, accuracy: Int) {
+
+    }
+
 
 }
