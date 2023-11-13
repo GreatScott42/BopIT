@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">BopIT</string>
+    <string name="jugar">Jugar</string>
+    <string name="descripcion">BopIt! hecho por fabian sepulveda</string>
 </resources>
